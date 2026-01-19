@@ -6,7 +6,7 @@ Smart CarbonTrack is a digital system designed to monitor, analyze, and reduce t
 
 **Objectives**
 -To digitally monitor the carbon footprint of manufacturing units
--To calculate carbon emissions from energy usage and production activities
+-To calculate carbon emissions from energy usage and production activities.
 -To identify major sources contributing to carbon emissions
 -To support strategies for reducing the overall carbon footprint
 -To promote sustainable and environmentally responsible manufacturing practices.
