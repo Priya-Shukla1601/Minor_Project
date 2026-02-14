@@ -349,3 +349,72 @@ input[type="month"]::-webkit-calendar-picker-indicator:hover {
     align-items: stretch;
   }
 }
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #0f766e;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar nav a {
+  color: white;
+  text-decoration: none;
+  margin: 10px 0;
+}
+
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #e6f9ff, #d4f5e9);
+}
+
+.topbar {
+  padding: 15px;
+  background: white;
+  font-weight: bold;
+}
+
+.page-content {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input {
+  display: block;
+  margin: 8px 0;
+  padding: 8px;
+  width: 300px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chart-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}

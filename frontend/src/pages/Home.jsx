@@ -1,29 +1,34 @@
-import React from 'react';
+export default function Home() {
+  return (
+    <div>
 
-const Home = () => {
-    return (
-        <div className="container">
-            <div className="hero">
-                <h1>Carbon Credit Monitoring Platform</h1>
-                <p>Track your energy consumption, calculate emissions, and monitor your carbon footprint efficiently.</p>
+      <h1>Welcome to Smart CarbonTrack</h1>
 
-                <div className="info-cards">
-                    <div className="card">
-                        <h3>Input Data</h3>
-                        <p>Submit your monthly raw data for Diesel, LPG, PNG, Grid Power, and more.</p>
-                    </div>
-                    <div className="card">
-                        <h3>Automated Calculations</h3>
-                        <p>Our system automatically converts units to Energy (MJ) and calculates CO2 emissions.</p>
-                    </div>
-                    <div className="card">
-                        <h3>Track KPIs</h3>
-                        <p>Monitor Carbon Intensity, Renewable Energy %, and Energy Ratios through our interactive dashboard.</p>
-                    </div>
-                </div>
-            </div>
+      <p>
+        Smart CarbonTrack is a digital platform designed to monitor,
+        analyze, and reduce carbon emissions in manufacturing units.
+      </p>
+
+      <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+
+        <div className="card">
+          <h3>Monitor Emissions</h3>
+          <p>Track energy and fuel usage across operations.</p>
         </div>
-    );
-};
 
-export default Home;
+        <div className="card">
+          <h3>Analyze Trends</h3>
+          <p>Visualize carbon footprint and performance metrics.</p>
+        </div>
+
+        <div className="card">
+          <h3>Improve Sustainability</h3>
+          <p>Support eco-friendly decision making.</p>
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+

@@ -1,28 +1,45 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import InputForm from './pages/InputForm';
-import Dashboard from './pages/Dashboard';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import InputForm from "./pages/InputForm";
+import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+
+import AppLayout from "./layout/AppLayout";
 
 function App() {
+  const [dashboardData, setDashboardData] = useState(null);
+
   return (
-    <Router>
-      <nav className="navbar">
-        <Link to="/" className="navbar-brand">Carbon Monitor</Link>
-        <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/input">Input Data</Link>
-          <Link to="/dashboard">Dashboard</Link>
-        </div>
-      </nav>
+    <BrowserRouter>
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/input" element={<InputForm />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Landing page */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Main app layout */}
+        <Route path="/app" element={<AppLayout />}>
+
+          <Route path="home" element={<Home />} />
+          <Route path="data-entry" element={<InputForm setDashboard={setDashboardData} />} />
+          <Route path="dashboard" element={<Dashboard data={dashboardData} />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<Settings />} />
+
+        </Route>
+
       </Routes>
-    </Router>
+
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+
