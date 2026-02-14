@@ -1,5 +1,5 @@
 const calculationService = require("../services/calculationService");
-const csvService = require("../services/csvService");
+const PlantEntry = require("../models/plantentry");
 
 exports.submitData = async (req, res) => {
   try {
@@ -37,7 +37,14 @@ exports.submitData = async (req, res) => {
     // 4. Save entry
     // -----------------------------
 
-    await csvService.writeEntry(dashboardData);
+  const entry = new PlantEntry({
+  plant: plantData.userId,
+  month: plantData.month,
+  inputs: plantData,
+  kpis
+});
+
+await entry.save();
 
     // -----------------------------
     // 5. Return dashboard payload
@@ -71,7 +78,7 @@ exports.getData = async (req, res) => {
       });
     }
 
-    const data = await csvService.getEntries(userId);
+    const data = await plantentry.find({plant: userId });
 
     res.json(data);
 
@@ -84,34 +91,27 @@ exports.getData = async (req, res) => {
 };
 
 exports.getDashboard = async (req, res) => {
-
   try {
-
     const { plant, month } = req.params;
 
-    const entries =
-      await csvService.getEntries(plant);
+    const data = await PlantEntry.findOne({
+      plant,
+      month
+    });
 
-    const record = entries.find(
-      e => e.month === month
-    );
-
-    if (!record) {
+    if (!data) {
       return res.status(404).json({
         error: "No dashboard data found"
       });
     }
 
-    res.json(record);
+    res.json(data);
 
   } catch (error) {
-
     console.error(error);
-
     res.status(500).json({
       error: "Internal Server Error"
     });
-
   }
 };
 

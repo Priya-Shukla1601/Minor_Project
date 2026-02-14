@@ -1,16 +1,13 @@
-require("dotenv").config();
-const connectDB = require("./config/db");
-
-connectDB();
-
 const express = require('express');
 const cors = require('cors');
+require("dotenv").config();
+const connectDB = require("./config/db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 const carbonRoutes = require('./routes/carbonRoutes');
-
+connectDB();
 app.use(cors());
 app.use(express.json());
 
