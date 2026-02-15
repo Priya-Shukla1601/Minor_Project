@@ -1,6 +1,75 @@
 import { useState } from "react";
+import {
+  FaCalendarAlt,
+  FaBolt,
+  FaFire,
+  FaIndustry
+} from "react-icons/fa";
 
-export default function InputForm({ setDashboard }) {
+const months = [
+  "Jan","Feb","Mar","Apr",
+  "May","Jun","Jul","Aug",
+  "Sep","Oct","Nov","Dec"
+];
+
+// Stable Input component (prevents focus loss)
+const Input = ({
+  name,
+  placeholder,
+  section,
+  value,
+  onChange,
+  onFocus,
+  missing,
+  styles
+}) => (
+  <input
+    type="text"
+    inputMode="numeric"
+    name={name}
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+    onFocus={() => onFocus(section)}
+    style={{
+      ...styles.input,
+      ...(value && styles.inputFilled),
+      ...(missing && styles.inputMissing)
+    }}
+  />
+);
+
+// Stable Section component
+const Section = ({
+  id,
+  icon,
+  title,
+  children,
+  activeSection,
+  setActiveSection,
+  styles
+}) => (
+  <section
+    style={{
+      ...styles.section,
+      ...(activeSection === id && styles.sectionActive)
+    }}
+    onClick={() => setActiveSection(id)}
+  >
+    <div style={styles.sectionHeader}>
+      {icon}
+      <h2 style={styles.sectionTitle}>{title}</h2>
+    </div>
+    {children}
+  </section>
+);
+
+export default function InputForm() {
+  const currentYear = new Date().getFullYear();
+
+  const [year, setYear] = useState(currentYear);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
 
   const [formData, setFormData] = useState({
     reportingMonth: "",
@@ -15,187 +84,349 @@ export default function InputForm({ setDashboard }) {
     production: ""
   });
 
-  const handleChange = (e) => {
+  const isFormComplete = Object.values(formData).every(v => v !== "");
+
+  const handleChange = e => {
     const { name, value } = e.target;
-
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (!/^[0-9]*$/.test(value)) return;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-
-  e.preventDefault();
-  const plant = localStorage.getItem("plant");
-  if (!plant) {
-  alert("Plant not set.");
-  return;
-}
-  const payload = {
-
-    userId: plant, 
-    month: Number(formData.reportingMonth),
-
-    gridPower: Number(formData.gridPower),
-    renewablePower: Number(formData.renewablePower),
-    solarPower: Number(formData.solarPower),
-
-    lpg: Number(formData.lpg),
-    furnaceOil: Number(formData.furnaceOil),
-    png: Number(formData.png),
-    hsd: Number(formData.hsd),
-    biomass: Number(formData.biomass),
-
-    production: Number(formData.production)
+  const selectMonth = index => {
+    const value = `${year}-${String(index + 1).padStart(2, "0")}`;
+    setFormData(prev => ({ ...prev, reportingMonth: value }));
+    setShowCalendar(false);
   };
 
-  try {
-
-    const response = await fetch(
-      "http://localhost:5000/api/carbon/entry",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      }
-    );
-
-    const result = await response.json();
-
-    console.log("Dashboard response:", result);
-
-    // send dashboard data to parent
-    if (setDashboard)
-      setDashboard(result.dashboard);
-
-    alert("Data submitted & KPIs calculated!");
-
-  } catch (error) {
-
-    console.error("Submit error:", error);
-
-    alert("Submission failed");
-
-  }
-};
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!isFormComplete) return;
+    console.log(formData);
+    alert("Data Submitted!");
+  };
 
   return (
-    <div>
+    <div style={styles.page}>
+      <form style={styles.form} onSubmit={handleSubmit}>
 
-      <h1>Data Entry</h1>
-
-      <form onSubmit={handleSubmit}>
+        <h1 style={styles.mainTitle}>Data Entry</h1>
 
         {/* Reporting Month */}
+        <Section
+          id="month"
+          icon={<FaCalendarAlt />}
+          title="Reporting Month"
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          styles={styles}
+        >
+          <div
+            style={{
+              ...styles.monthDisplay,
+              ...(formData.reportingMonth === "" && styles.inputMissing)
+            }}
+            onClick={() => setShowCalendar(!showCalendar)}
+          >
+            {formData.reportingMonth
+              ? `${months[
+                  parseInt(formData.reportingMonth.split("-")[1]) - 1
+                ]} ${year}`
+              : "Select Month"}
+          </div>
 
-        <h3>Reporting Month</h3>
+          {showCalendar && (
+            <div style={styles.calendar}>
+              <div style={styles.yearRow}>
+                <button
+                  type="button"
+                  style={styles.yearBtn}
+                  onClick={() => setYear(y => y - 1)}
+                >
+                  ◀
+                </button>
 
-        <input
-          type="month"
-          name="reportingMonth"
-          value={formData.reportingMonth}
-          onChange={handleChange}
-          required
-        />
+                <span style={styles.yearText}>{year}</span>
 
-        {/* Power Section */}
+                <button
+                  type="button"
+                  style={styles.yearBtn}
+                  onClick={() => setYear(y => y + 1)}
+                >
+                  ▶
+                </button>
+              </div>
 
-        <h3>Power Consumption (kWh)</h3>
+              <div style={styles.monthGrid}>
+                {months.map((m, i) => (
+                  <div
+                    key={m}
+                    style={styles.monthTile}
+                    onClick={() => selectMonth(i)}
+                  >
+                    {m}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Section>
 
-        <input
-          type="number"
-          placeholder="Grid Power"
-          name="gridPower"
-          value={formData.gridPower}
-          onChange={handleChange}
-        />
+        {/* Power */}
+        <Section
+          id="power"
+          icon={<FaBolt />}
+          title="Power Consumption (kWh)"
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          styles={styles}
+        >
+          <div style={styles.grid}>
+            <Input
+              name="gridPower"
+              placeholder="Grid Power"
+              section="power"
+              value={formData.gridPower}
+              onChange={handleChange}
+              onFocus={setActiveSection}
+              missing={formData.gridPower === ""}
+              styles={styles}
+            />
+            <Input
+              name="renewablePower"
+              placeholder="Renewable Power"
+              section="power"
+              value={formData.renewablePower}
+              onChange={handleChange}
+              onFocus={setActiveSection}
+              missing={formData.renewablePower === ""}
+              styles={styles}
+            />
+            <Input
+              name="solarPower"
+              placeholder="Solar Power"
+              section="power"
+              value={formData.solarPower}
+              onChange={handleChange}
+              onFocus={setActiveSection}
+              missing={formData.solarPower === ""}
+              styles={styles}
+            />
+          </div>
+        </Section>
 
-        <input
-          type="number"
-          placeholder="Renewable Power"
-          name="renewablePower"
-          value={formData.renewablePower}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          placeholder="Solar Power"
-          name="solarPower"
-          value={formData.solarPower}
-          onChange={handleChange}
-        />
-
-        {/* Fuel Section */}
-
-        <h3>Fuel Consumption</h3>
-
-        <input
-          type="number"
-          placeholder="LPG (kg)"
-          name="lpg"
-          value={formData.lpg}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          placeholder="Furnace Oil (litre)"
-          name="furnaceOil"
-          value={formData.furnaceOil}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          placeholder="PNG (SCM)"
-          name="png"
-          value={formData.png}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          placeholder="HSD (litre)"
-          name="hsd"
-          value={formData.hsd}
-          onChange={handleChange}
-        />
-
-        <input
-          type="number"
-          placeholder="Biomass (MJ)"
-          name="biomass"
-          value={formData.biomass}
-          onChange={handleChange}
-        />
+        {/* Fuel */}
+        <Section
+          id="fuel"
+          icon={<FaFire />}
+          title="Fuel Consumption"
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          styles={styles}
+        >
+          <div style={styles.grid}>
+            {[
+              ["lpg", "LPG (kg)"],
+              ["furnaceOil", "Furnace Oil (litre)"],
+              ["png", "PNG (SCM)"],
+              ["hsd", "HSD (litre)"],
+              ["biomass", "Biomass (MJ)"]
+            ].map(([name, label]) => (
+              <Input
+                key={name}
+                name={name}
+                placeholder={label}
+                section="fuel"
+                value={formData[name]}
+                onChange={handleChange}
+                onFocus={setActiveSection}
+                missing={formData[name] === ""}
+                styles={styles}
+              />
+            ))}
+          </div>
+        </Section>
 
         {/* Production */}
-
-        <h3>Production</h3>
-
-        <input
-          type="number"
-          placeholder="Production Volume (litres)"
-          name="production"
-          value={formData.production}
-          onChange={handleChange}
-        />
+        <Section
+          id="production"
+          icon={<FaIndustry />}
+          title="Production"
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          styles={styles}
+        >
+          <Input
+            name="production"
+            placeholder="Production Volume (litres)"
+            section="production"
+            value={formData.production}
+            onChange={handleChange}
+            onFocus={setActiveSection}
+            missing={formData.production === ""}
+            styles={styles}
+          />
+        </Section>
 
         {/* Submit */}
-
-        <br /><br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          disabled={!isFormComplete}
+          style={{
+            ...styles.button,
+            ...(isFormComplete
+              ? styles.buttonActive
+              : styles.buttonDisabled)
+          }}
+        >
           Submit Data
         </button>
 
       </form>
-
     </div>
   );
 }
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    padding: 40,
+    background: "linear-gradient(135deg,#e0f2fe,#ccfbf1,#dcfce7)",
+    display: "flex",
+    justifyContent: "center",
+    fontFamily: "sans-serif"
+  },
+
+  form: { width: "100%", maxWidth: 1100 },
+
+  mainTitle: {
+    textAlign: "center",
+    fontSize: 46,
+    fontWeight: 900,
+    color: "#065f46",
+    marginBottom: 30
+  },
+
+  section: {
+    background: "#ecfdf5",
+    padding: 24,
+    borderRadius: 14,
+    marginBottom: 24,
+    transition: "all .25s ease"
+  },
+
+  sectionActive: {
+    transform: "scale(1.02)",
+    boxShadow: "0 14px 28px rgba(0,0,0,.12)"
+  },
+
+  sectionHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 16,
+    color: "#047857",
+    fontSize: 20
+  },
+
+  sectionTitle: { fontWeight: 800 },
+
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+    gap: 14
+  },
+
+  input: {
+    padding: 14,
+    borderRadius: 8,
+    border: "1px solid #a7f3d0",
+    fontSize: 16,
+    background: "#d1fae5",
+    color: "#064e3b",
+    fontWeight: 600
+  },
+
+  inputFilled: { color: "#064e3b" },
+
+  inputMissing: {
+    border: "2px solid #ef4444"
+  },
+
+  monthDisplay: {
+    padding: 14,
+    borderRadius: 8,
+    background: "#d1fae5",
+    cursor: "pointer",
+    fontWeight: 600,
+    color: "#065f46"
+  },
+
+  calendar: {
+    marginTop: 16,
+    background: "#f0fdf4",
+    padding: 16,
+    borderRadius: 12
+  },
+
+  yearRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12
+  },
+
+  yearBtn: {
+    background: "#14b8a6",
+    color: "white",
+    border: "none",
+    borderRadius: 8,
+    padding: "6px 12px",
+    cursor: "pointer",
+    fontWeight: 700
+  },
+
+  yearText: {
+    fontWeight: 800,
+    color: "#0f766e"
+  },
+
+  monthGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4,1fr)",
+    gap: 8
+  },
+
+  monthTile: {
+    padding: 10,
+    background: "#bbf7d0",
+    borderRadius: 8,
+    textAlign: "center",
+    cursor: "pointer",
+    fontWeight: 600,
+    color: "#065f46"
+  },
+
+  button: {
+    width: "100%",
+    padding: 18,
+    fontSize: 18,
+    fontWeight: 800,
+    borderRadius: 12,
+    border: "none",
+    transition: ".2s"
+  },
+
+  buttonActive: {
+    background: "#047857",
+    color: "white",
+    cursor: "pointer"
+  },
+
+  buttonDisabled: {
+    background: "#9ca3af",
+    color: "#e5e7eb",
+    cursor: "not-allowed"
+  }
+};
+
 

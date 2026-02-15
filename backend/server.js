@@ -16,6 +16,7 @@ app.use('/api/carbon', carbonRoutes);
 app.get('/api/hello', (req, res) => {
     res.json({ message: 'Hello from Backend!' });
 });
+const mongoose = require("mongoose");
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

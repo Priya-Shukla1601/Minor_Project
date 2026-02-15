@@ -32,17 +32,18 @@ exports.calculateKPIs = (data) => {
 
   // --- normalize inputs ---
 
-  const grid = +data.gridPower || 0;
-  const renewable = +data.renewablePower || 0;
-  const solar = +data.solarPower || 0;
 
-  const lpg = +data.lpg || 0;
-  const furnace = +data.furnaceOil || 0;
-  const png = +data.png || 0;
-  const hsd = +data.hsd || 0;
-  const biomass = +data.biomass || 0;
+const grid = +data.powerConsumption?.gridPowerKWh || 0;
+const renewable = +data.powerConsumption?.renewablePowerKWh || 0;
+const solar = +data.powerConsumption?.solarPowerKWh || 0;
 
-  const production = +data.production || 1;
+const lpg = +data.fuelConsumption?.lpgKg || 0;
+const furnace = +data.fuelConsumption?.furnaceOilLitre || 0;
+const png = +data.fuelConsumption?.pngSCM || 0;
+const hsd = +data.fuelConsumption?.hsdLitre || 0;
+const biomass = +data.fuelConsumption?.biomassMJ || 0;
+
+const production = +data.beverageProduction || 1;
 
 
   // ======================================

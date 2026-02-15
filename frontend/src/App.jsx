@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -16,26 +16,39 @@ function App() {
 
   return (
     <BrowserRouter>
-
       <Routes>
 
-        {/* Landing page */}
+        {/* Landing */}
         <Route path="/" element={<Landing />} />
 
-        {/* Main app layout */}
+        {/* Dashboard Layout */}
         <Route path="/app" element={<AppLayout />}>
 
+          {/* default route */}
+          <Route index element={<Navigate to="home" />} />
+
           <Route path="home" element={<Home />} />
-          <Route path="data-entry" element={<InputForm setDashboard={setDashboardData} />} />
-          <Route path="dashboard" element={<Dashboard data={dashboardData} />} />
+
+          <Route
+            path="data-entry"
+            element={<InputForm setDashboardData={setDashboardData} />}
+          />
+
+          <Route
+            path="dashboard"
+            element={<Dashboard data={dashboardData} />}
+          />
+
           <Route path="analytics" element={<Analytics />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
 
         </Route>
 
-      </Routes>
+        {/* fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
 
+      </Routes>
     </BrowserRouter>
   );
 }

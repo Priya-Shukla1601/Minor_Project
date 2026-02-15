@@ -18,7 +18,7 @@ const KpiCard = ({ title, value }) => (
   </div>
 );
 
-export default function Dashboard({data}) {
+export default function Dashboard() {
     const plant = localStorage.getItem("plant");
 const month = "January"; // later dynamic
 
@@ -32,6 +32,9 @@ useEffect(() => {
     .catch(console.error);
 
 }, []);
+    if (!data) {
+  return <h2>Loading...</h2>;
+}
 
   // Chart state (4 independent charts)
   const [charts, setCharts] = useState([

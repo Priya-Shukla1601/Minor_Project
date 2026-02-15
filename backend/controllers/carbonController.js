@@ -10,9 +10,9 @@ exports.submitData = async (req, res) => {
     // 1. Basic validation
     // -----------------------------
 
-    if (!plantData.userId || !plantData.month) {
+    if (!plantData.userId || !plantData.month || !plantData.year) {
       return res.status(400).json({
-        error: "Plant ID and month required"
+        error: "Plant ID , month and year required"
       });
     }
 
@@ -34,17 +34,28 @@ exports.submitData = async (req, res) => {
     };
 
     // -----------------------------
-    // 4. Save entry
+    // 4. Save or Update entry
     // -----------------------------
 
-  const entry = new PlantEntry({
-  plant: plantData.userId,
-  month: plantData.month,
-  inputs: plantData,
-  kpis
-});
-
-await entry.save();
+    const updatedEntry = await PlantEntry.findOneAndUpdate(
+  {
+    plant: plantData.userId,
+    month: plantData.month,
+    year: plantData.year
+  },
+  {
+    plant: plantData.userId,
+    month: plantData.month,
+    year: plantData.year,
+    inputs: plantData,
+    kpis,
+    timestamp: new Date()
+  },
+  {
+    new: true,
+    upsert: true
+  }
+);
 
     // -----------------------------
     // 5. Return dashboard payload
@@ -52,7 +63,7 @@ await entry.save();
 
     res.json({
       message: "Plant data saved",
-      dashboard: dashboardData
+      dashboard: updatedEntry
     });
 
   } catch (error) {
@@ -78,7 +89,7 @@ exports.getData = async (req, res) => {
       });
     }
 
-    const data = await plantentry.find({plant: userId });
+    const data = await PlantEntry.find({plant: userId });
 
     res.json(data);
 
@@ -92,11 +103,12 @@ exports.getData = async (req, res) => {
 
 exports.getDashboard = async (req, res) => {
   try {
-    const { plant, month } = req.params;
+    const { plant, month, year } = req.params;
 
     const data = await PlantEntry.findOne({
       plant,
-      month
+      month,
+      year
     });
 
     if (!data) {
