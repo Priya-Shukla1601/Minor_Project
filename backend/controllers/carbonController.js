@@ -100,10 +100,13 @@ exports.getData = async (req, res) => {
     });
   }
 };
-
 exports.getDashboard = async (req, res) => {
   try {
-    const { plant, month, year } = req.params;
+    let { plant, month, year } = req.params;
+
+    // Convert month & year to Number (VERY IMPORTANT)
+    month = Number(month);
+    year = Number(year);
 
     const data = await PlantEntry.findOne({
       plant,
@@ -126,5 +129,3 @@ exports.getDashboard = async (req, res) => {
     });
   }
 };
-
-

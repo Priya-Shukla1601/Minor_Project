@@ -77,13 +77,13 @@ const styles = {
 
   overlay: {
   background: `
-    linear-gradient(
-      rgba(34,139,34,0.35),
-      rgba(0,80,0,0.45)
+    // linear-gradient(
+     // rgba(34,139,34,0.35),
+     // rgba(0,80,0,0.45)
     ),
-    rgba(0,0,0,0.35)
+   // rgba(0,0,0,0.35),
   `,
-  backdropFilter: "blur(4px)",
+  //backdropFilter: "blur(4px)",
   width: "100%",
   height: "100%",
   display: "flex",

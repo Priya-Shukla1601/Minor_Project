@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaCalendarAlt,
   FaBolt,
@@ -66,10 +67,13 @@ const Section = ({
 
 export default function InputForm() {
   const currentYear = new Date().getFullYear();
-
+  const navigate = useNavigate();
   const [year, setYear] = useState(currentYear);
   const [showCalendar, setShowCalendar] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
+  const [selectedPlant] = useState(
+  localStorage.getItem("plant") || "plant1"
+);
 
   const [formData, setFormData] = useState({
     reportingMonth: "",
@@ -98,18 +102,73 @@ export default function InputForm() {
     setShowCalendar(false);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!isFormComplete) return;
-    console.log(formData);
-    alert("Data Submitted!");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!isFormComplete) return;
+
+   const plant = selectedPlant; // ← pull from state
+
+  localStorage.setItem("plant", plant);
+
+  const [yearValue, monthValue] = formData.reportingMonth.split("-");
+  const monthNumber = parseInt(monthValue);
+  const yearNumber = parseInt(yearValue);
+
+  try {
+  const response = await fetch(
+    "http://localhost:5000/api/carbon/entry",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+      userId: plant,
+      month: monthNumber,
+      year: yearNumber,
+
+    powerConsumption: {
+      gridPowerKWh: Number(formData.gridPower),
+      renewablePowerKWh: Number(formData.renewablePower),
+      solarPowerKWh: Number(formData.solarPower)
+  },
+
+    fuelConsumption: {
+     lpgKg: Number(formData.lpg),
+     furnaceOilLitre: Number(formData.furnaceOil),
+     pngSCM: Number(formData.png),
+     hsdLitre: Number(formData.hsd),
+     biomassMJ: Number(formData.biomass)
+  },
+
+    beverageProduction: Number(formData.production)
+})
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Server returned error");
+  }
+
+  const data = await response.json();
+  console.log("Saved:", data);
+
+  navigate("/app/dashboard");
+
+} catch (error) {
+  console.error("Submit error:", error);
+  alert("Error submitting data");
+}
+};
 
   return (
     <div style={styles.page}>
       <form style={styles.form} onSubmit={handleSubmit}>
 
         <h1 style={styles.mainTitle}>Data Entry</h1>
+        <p style={styles.subtitle}>
+        Enter energy and production details for emission tracking
+      </p>
 
         {/* Reporting Month */}
         <Section
@@ -268,7 +327,7 @@ export default function InputForm() {
         </Section>
 
         {/* Submit */}
-        <button
+         <button
           type="submit"
           disabled={!isFormComplete}
           style={{
@@ -300,10 +359,17 @@ const styles = {
 
   mainTitle: {
     textAlign: "center",
-    fontSize: 46,
+    fontSize: 58,
     fontWeight: 900,
     color: "#065f46",
     marginBottom: 30
+  },
+   subtitle: {
+    textAlign: "center",
+    color: "#065f46",
+    marginBottom: "35px",
+    fontSize: "20px",
+    opacity: 0.7
   },
 
   section: {
@@ -428,5 +494,3 @@ const styles = {
     cursor: "not-allowed"
   }
 };
-
-
