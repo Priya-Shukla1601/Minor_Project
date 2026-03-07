@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
+
 export default function AnalyticsPage() {
 
   const [selectedMonth, setSelectedMonth] = useState("2026-01");
@@ -58,31 +59,29 @@ export default function AnalyticsPage() {
         }}
       >
 
-        {/* Comparison Only */}
         <Control label="Comparison">
-  <select
-    value={comparisonType}
-    onChange={e => setComparisonType(e.target.value)}
-    style={{
-      marginTop: 8,
-      padding: "10px 16px",
-      borderRadius: 10,
-      border: "2px solid #14b8a6",
-      backgroundColor: "#ffffff",
-      color: "#0f766e",
-      fontWeight: "600",
-      fontSize: "15px",
-      cursor: "pointer",
-      outline: "none"
-    }}
-  >
-    <option value="mom">Month-over-Month</option>
-    <option value="yoy">Year-over-Year</option>
-    <option value="qoq">Quarter-over-Quarter</option>
-  </select>
-</Control>
+          <select
+            value={comparisonType}
+            onChange={e => setComparisonType(e.target.value)}
+            style={{
+              marginTop: 8,
+              padding: "10px 16px",
+              borderRadius: 10,
+              border: "2px solid #14b8a6",
+              backgroundColor: "#ffffff",
+              color: "#0f766e",
+              fontWeight: "600",
+              fontSize: "15px",
+              cursor: "pointer",
+              outline: "none"
+            }}
+          >
+            <option value="mom">Month-over-Month</option>
+            <option value="yoy">Year-over-Year</option>
+            <option value="qoq">Quarter-over-Quarter</option>
+          </select>
+        </Control>
 
-        {/* Calendar Month Picker */}
         <MonthSelector
           selectedMonth={selectedMonth}
           onChange={setSelectedMonth}
@@ -92,45 +91,42 @@ export default function AnalyticsPage() {
 
       {/* ===== SECTIONS ===== */}
 
-      <Section title="1️⃣ Emissions Trend Analysis">
+      <Section title="📈 Emissions Trend Analysis">
         <p>Trend charts will appear here.</p>
       </Section>
 
-      <Section title="2️⃣ Energy Consumption Analysis">
+      <Section title="⚡ Energy Consumption Analysis">
         <p>Energy consumption analysis will appear here.</p>
       </Section>
 
-      <Section title="3️⃣ Fuel Mix & Green Fuel Analysis">
+      <Section title="🛢️ Fuel Mix & Green Fuel Analysis">
         <p>Fuel mix insights will appear here.</p>
       </Section>
 
-      <Section title="4️⃣ Carbon Intensity Analysis">
+      <Section title="🌍 Carbon Intensity Analysis">
         <p>Carbon intensity metrics will appear here.</p>
       </Section>
 
-      <Section title="5️⃣ Energy Efficiency Analysis">
+      <Section title="🏭 Energy Efficiency Analysis">
         <p>Energy efficiency indicators will appear here.</p>
       </Section>
 
-      <Section title="6️⃣ Source Contribution (Hotspot Analysis)">
+      <Section title="🔥 Source Contribution (Hotspot Analysis)">
         <HotspotChart
           plant="plant1"
           selectedMonth={selectedMonth}
         />
       </Section>
 
-      <Section title="7️⃣ Scenario & What-If Analysis">
+      <Section title="🧪 Scenario & What-If Analysis">
         <p>Scenario modelling tools will appear here.</p>
       </Section>
 
-      <Section title="8️⃣ Reduction Opportunity Insights">
+      <Section title="🎯 Reduction Opportunity Insights">
         <p>Reduction opportunity insights will appear here.</p>
       </Section>
 
-      <Section title="9️⃣ Export & Download Options">
-        <p>Export and download options will appear here.</p>
-      </Section>
-
+      
     </div>
   );
 }
@@ -451,7 +447,7 @@ function Card({ title, value, sub }) {
 
       <div style={{
         fontSize:13,
-        color:"#6b7280",
+        color:"#374151",
         marginTop:5
       }}>
         {sub}
@@ -497,7 +493,15 @@ function Section({ title, children }) {
       }}>
         {title}
       </h2>
-      {children}
+       <div
+        style={{
+          fontSize: "16px",
+          color: "#374151",  // dark gray (visible on white)
+          lineHeight: 1.6
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
