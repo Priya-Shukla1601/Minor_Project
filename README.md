@@ -23,3 +23,5 @@ Smart CarbonTrack is a digital system designed to monitor, analyze, and reduce t
 - Real‑time emission tracking
 - Graphical representation of emission data
 - Dashboard for insights
+- Easy deployment with Node.js server
+- Modular and scalable codebase
