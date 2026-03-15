@@ -15,7 +15,6 @@ exports.submitData = async (req, res) => {
         error: "Plant ID , month and year required"
       });
     }
-
     // -----------------------------
     // 2. Calculate KPIs
     // -----------------------------
