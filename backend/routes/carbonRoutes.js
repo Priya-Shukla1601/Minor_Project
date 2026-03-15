@@ -12,4 +12,5 @@ router.get(
   '/dashboard/:plant/:month/:year',
   carbonController.getDashboard
 );
+
 module.exports = router;
