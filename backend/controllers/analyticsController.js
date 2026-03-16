@@ -8,7 +8,7 @@ EMISSIONS TREND
 exports.getTrend = async (req, res) => {
   try {
     const { plant } = req.params;
-    const data = await analyticsService.getTrendData(plant);
+    const data = await analyticsService.getTrendData(plant):
     res.json(data);
   } catch (error) {
     console.error("Trend Error:", error);
