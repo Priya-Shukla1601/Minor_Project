@@ -1,5 +1,4 @@
 const analyticsService = require("../services/analyticsService");
-
 /*
 ========================================
 EMISSIONS TREND
