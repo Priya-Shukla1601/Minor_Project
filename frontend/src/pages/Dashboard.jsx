@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, memo } from "react";
-import ApexCharts from "apexcharts";
+import ApexCharts from "apexcharts"; 
 
 /* ---------- chart types ---------- */
 
