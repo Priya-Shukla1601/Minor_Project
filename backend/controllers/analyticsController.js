@@ -41,7 +41,7 @@ exports.getComparison = async (req, res) => {
 /*
 ========================================
 HOTSPOT ANALYSIS
-========================================
+==========================================
 */
 exports.getHotspots = async (req, res) => {
   try {
