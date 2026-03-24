@@ -14,7 +14,6 @@ exports.getTrend = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch trend data" });
   }
 };
-
 /*
 ========================================
 COMPARISON (MoM / YoY / QoQ)
