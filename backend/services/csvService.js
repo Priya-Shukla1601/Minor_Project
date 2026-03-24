@@ -26,6 +26,7 @@ const writeEntry = async (data) => {
     const row = { ...data, timestamp };
 
     // Append to file
+    
     // Simple append string as it's just one line and avoiding heavy locking for now (MVP)
     const rowString = [
         row.userId, row.month,
