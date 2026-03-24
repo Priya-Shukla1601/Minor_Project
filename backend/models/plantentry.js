@@ -5,6 +5,7 @@ const plantEntrySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  
   month: {
     type: Number,   // 1 to 12
     required: true
