@@ -7,4 +7,5 @@ router.get("/comparison/:plant", analyticsController.getComparison);
 router.get("/hotspots/:plant/:month/:year", analyticsController.getHotspots);
 router.post("/scenario", analyticsController.runScenario);
 
+
 module.exports = router; 
