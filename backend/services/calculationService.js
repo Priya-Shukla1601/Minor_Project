@@ -3,7 +3,6 @@
 // ======================================
 
 // --- Conversion constants ---
-
 const FACTORS = {
 
   // electricity → kg CO2 per kWh
