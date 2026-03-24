@@ -7,7 +7,6 @@ exports.submitData = async (req, res) =>
   try {
 
     const plantData = req.body;
-
     // -----------------------------
     // 1. Basic validation
     // -----------------------------
