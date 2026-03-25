@@ -4,6 +4,7 @@ const analyticsService = require("../services/analyticsService");
 EMISSIONS TREND
 ========================================
 */
+
 exports.getTrend = async (req, res) => {
   try {
     const { plant } = req.params;
