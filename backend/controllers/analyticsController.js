@@ -18,7 +18,7 @@ exports.getTrend = async (req, res) => {
 /*
 ========================================
 COMPARISON (MoM / YoY / QoQ)
-========================================
+=========================================
 */
 exports.getComparison = async (req, res) => {
   try {
