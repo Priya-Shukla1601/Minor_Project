@@ -10,7 +10,7 @@ export default function AppLayout() {
     location.pathname.split("/").pop() || "home";
 
   return (
-    <div style={{ display: "flex", minheight: "100vh" }}>
+    <div style={{ display: "flex", minhseight: "100vh" }}>
       <Sidebar />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
