@@ -2,7 +2,7 @@ const calculationService = require("../services/calculationService");
 const PlantEntry = require("../models/plantentry");
 
 exports.submitData = async (req, res) => 
-  
+
 {
   try {
 
