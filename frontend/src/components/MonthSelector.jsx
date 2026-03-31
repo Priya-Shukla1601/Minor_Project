@@ -4,7 +4,6 @@ export default function MonthSelector({ selectedMonth, setSelectedMonth }) {
       <label style={{ marginRight: "10px", fontWeight: 600 }}>
         Select Month:
       </label>
-
       <select
         value={selectedMonth}
         onChange={(e) => setSelectedMonth(e.target.value)}
