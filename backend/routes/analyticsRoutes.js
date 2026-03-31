@@ -1,10 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const analyticsController = require("../controllers/analyticsController");
 
-router.get("/trend/:plant", analyticsController.getTrend);
-router.get("/comparison/:plant", analyticsController.getComparison);
-router.get("/hotspots/:plant/:month/:year", analyticsController.getHotspots);
-router.post("/scenario", analyticsController.runScenario);
+const {
+  getEmissionsTrend,
+  getEnergy,
+  getFuelMix
+} = require("../controllers/analyticsController");
+
+// 📊 Emissions Trend
+router.get("/emissions-trend/:plantId", getEmissionsTrend);
+
+// ⚡ Energy Data
+router.get("/energy/:plantId/:month/:year", getEnergy);
+
+// 🔥 Fuel Mix
+router.get("/fuel-mix/:plantId/:month/:year", getFuelMix);
 
 module.exports = router;

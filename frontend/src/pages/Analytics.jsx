@@ -1,507 +1,186 @@
-import { useState, useEffect } from "react";
-import ReactApexChart from "react-apexcharts";
-
+import React, { useEffect, useState } from "react";
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
+  BarChart, Bar, PieChart, Pie, Cell
+} from "recharts";
 
 export default function AnalyticsPage() {
+  const [selectedMonth, setSelectedMonth] = useState("2026-03");
+  const [emissionsData, setEmissionsData] = useState([]);
+  const [months, setMonths] = useState([]);
+  const [energyData, setEnergyData] = useState({});
+  const [fuelMix, setFuelMix] = useState([]);
 
-  const [selectedMonth, setSelectedMonth] = useState("2026-01");
-  const [comparisonType, setComparisonType] = useState("mom");
-
-  return (
-    <div
-      style={{
-        padding: 40,
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #e0f2fe, #ccfbf1, #dcfce7)"
-      }}
-    >
-
-      {/* ===== HEADER ===== */}
-      <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <h1
-          style={{
-            fontSize: "55px",
-            fontWeight: "800",
-            color: "#0f766e",
-            marginBottom: 10
-          }}
-        >
-          Analytics & Insights
-        </h1>
-
-        <p
-          style={{
-            fontSize: "20px",
-            color: "#14b8a6",
-            fontWeight: "500",
-            maxWidth: "750px",
-            margin: "0 auto"
-          }}
-        >
-          Explore trends, comparisons, and drivers of energy usage and carbon emissions.
-        </p>
-      </div>
-
-      {/* ===== CONTROLS PANEL ===== */}
-      <div
-        style={{
-          display: "flex",
-          gap: 40,
-          marginBottom: 40,
-          flexWrap: "wrap",
-          background: "#ffffff",
-          padding: 25,
-          borderRadius: 16,
-          boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-
-        <Control label="Comparison">
-          <select
-            value={comparisonType}
-            onChange={e => setComparisonType(e.target.value)}
-            style={{
-              marginTop: 8,
-              padding: "10px 16px",
-              borderRadius: 10,
-              border: "2px solid #14b8a6",
-              backgroundColor: "#ffffff",
-              color: "#0f766e",
-              fontWeight: "600",
-              fontSize: "15px",
-              cursor: "pointer",
-              outline: "none"
-            }}
-          >
-            <option value="mom">Month-over-Month</option>
-            <option value="yoy">Year-over-Year</option>
-            <option value="qoq">Quarter-over-Quarter</option>
-          </select>
-        </Control>
-
-        <MonthSelector
-          selectedMonth={selectedMonth}
-          onChange={setSelectedMonth}
-        />
-
-      </div>
-
-      {/* ===== SECTIONS ===== */}
-
-      <Section title="📈 Emissions Trend Analysis">
-        <p>Trend charts will appear here.</p>
-      </Section>
-
-      <Section title="⚡ Energy Consumption Analysis">
-        <p>Energy consumption analysis will appear here.</p>
-      </Section>
-
-      <Section title="🛢️ Fuel Mix & Green Fuel Analysis">
-        <p>Fuel mix insights will appear here.</p>
-      </Section>
-
-      <Section title="🌍 Carbon Intensity Analysis">
-        <p>Carbon intensity metrics will appear here.</p>
-      </Section>
-
-      <Section title="🏭 Energy Efficiency Analysis">
-        <p>Energy efficiency indicators will appear here.</p>
-      </Section>
-
-      <Section title="🔥 Source Contribution (Hotspot Analysis)">
-        <HotspotChart
-          plant="plant1"
-          selectedMonth={selectedMonth}
-        />
-      </Section>
-
-      <Section title="🧪 Scenario & What-If Analysis">
-        <p>Scenario modelling tools will appear here.</p>
-      </Section>
-
-      <Section title="🎯 Reduction Opportunity Insights">
-        <p>Reduction opportunity insights will appear here.</p>
-      </Section>
-
-      
-    </div>
-  );
-}
-
-/* ================= MONTH SELECTOR ================= */
-
-function MonthSelector({ selectedMonth, onChange }) {
-
-  const [open, setOpen] = useState(false);
-  const [year, setYear] = useState(selectedMonth.split("-")[0]);
-
-  const months = [
-    "Jan","Feb","Mar","Apr",
-    "May","Jun","Jul","Aug",
-    "Sep","Oct","Nov","Dec"
-  ];
-
-  const handleMonthClick = (index) => {
-    const monthNumber = String(index + 1).padStart(2, "0");
-    onChange(`${year}-${monthNumber}`);
-    setOpen(false);
-  };
-
-  return (
-    <div style={{ position: "relative" }}>
-
-      <button
-        onClick={() => setOpen(!open)}
-        style={{
-          background: "#14b8a6",
-          border: "none",
-          padding: "12px 18px",
-          borderRadius: 10,
-          color: "white",
-          fontWeight: "600",
-          cursor: "pointer"
-        }}
-      >
-        📅 Select Month
-      </button>
-
-      {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: 60,
-            right: 0,
-            background: "#ffffff",
-            padding: 20,
-            borderRadius: 14,
-            boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
-            width: 260,
-            zIndex: 10
-          }}
-        >
-
-          {/* Year Navigation */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 15
-            }}
-          >
-            <button
-              onClick={() => setYear(prev => String(Number(prev) - 1))}
-              style={yearBtn}
-            >
-              {"<"}
-            </button>
-
-            <strong style={{ color: "#0f766e" }}>{year}</strong>
-
-            <button
-              onClick={() => setYear(prev => String(Number(prev) + 1))}
-              style={yearBtn}
-            >
-              {">"}
-            </button>
-          </div>
-
-          {/* Month Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4,1fr)",
-              gap: 10
-            }}
-          >
-            {months.map((m, i) => (
-              <button
-                key={m}
-                onClick={() => handleMonthClick(i)}
-                style={{
-                  padding: "8px 0",
-                  borderRadius: 8,
-                  border: "1px solid #14b8a6",
-                  background:
-                    selectedMonth ===
-                    `${year}-${String(i + 1).padStart(2, "0")}`
-                      ? "#14b8a6"
-                      : "white",
-                  color:
-                    selectedMonth ===
-                    `${year}-${String(i + 1).padStart(2, "0")}`
-                      ? "white"
-                      : "#0f766e",
-                  cursor: "pointer",
-                  fontWeight: "600"
-                }}
-              >
-                {m}
-              </button>
-            ))}
-          </div>
-
-        </div>
-      )}
-
-    </div>
-  );
-}
-
-const yearBtn = {
-  background: "#14b8a6",
-  border: "none",
-  color: "white",
-  borderRadius: 8,
-  padding: "4px 10px",
-  cursor: "pointer"
-};
-
-/* ================= HOTSPOT + INSIGHTS ================= */
-
-function HotspotChart({ plant, selectedMonth }) {
-
-  const [chartData, setChartData] = useState(null);
+  const plantId = "plant1";
 
   useEffect(() => {
-    if (!selectedMonth) return;
+    fetch(`http://localhost:5000/api/analytics/emissions-trend/${plantId}`)
+      .then(res => res.json())
+      .then(data => {
+        setMonths(data.months);
+        setEmissionsData(data.emissions);
+      });
 
     const [year, month] = selectedMonth.split("-");
 
-    fetch(
-      `http://localhost:5000/api/analytics/hotspots/${plant}/${month}/${year}`
-    )
+    fetch(`http://localhost:5000/api/analytics/energy/${plantId}/${month}/${year}`)
       .then(res => res.json())
-      .then(data => {
-  console.log("Hotspot API response:", data);
+      .then(setEnergyData);
 
-  if (data?.sources?.length) {
-    setChartData(data);
-  } else {
-    console.warn("No hotspot data returned");
-  }
-      })
-.catch(err => {
-  console.error("Hotspot fetch error:", err);
-});
+    fetch(`http://localhost:5000/api/analytics/fuel-mix/${plantId}/${month}/${year}`)
+      .then(res => res.json())
+      .then(data => setFuelMix(data.fuels));
+  }, [selectedMonth]);
 
+  // 📊 Baseline
+  const baseline =
+    emissionsData.length >= 3
+      ? (emissionsData[0] + emissionsData[1] + emissionsData[2]) / 3
+      : 0;
 
-  }, [plant, selectedMonth]);
+  const latest = emissionsData[emissionsData.length - 1] || 0;
 
-  if (!chartData) {
-  return (
-    <p style={{color:"#ef4444"}}>
-      No hotspot data found for this month.
-    </p>
-  );
-}
+  const changePercent =
+    baseline !== 0 ? ((latest - baseline) / baseline) * 100 : 0;
 
+  const totalEmissions = emissionsData.reduce((a, b) => a + b, 0);
+  const totalEnergy = energyData?.total || 0;
 
-  const allSources = [
-    "Grid Power","Renewable Power","Solar Power",
-    "LPG","PNG","HSD","Furnace Oil","Biomass"
+  const lineData = months.map((m, i) => ({
+    name: m,
+    emissions: emissionsData[i]
+  }));
+
+  const barData = [
+    { name: "Electricity", value: energyData.electricity || 0 },
+    { name: "Fuel", value: energyData.fuel || 0 }
   ];
 
-  const sourceMap = {};
-  chartData.sources.forEach(s => {
-    sourceMap[s.name] = s.value;
-  });
-
-  const values = allSources.map(s => sourceMap[s] || 0);
-
-  const series = [{
-    name: "Emissions (MT CO₂e)",
-    data: values
-  }];
-
-  const options = {
-    chart: {
-    type: "bar",
-    toolbar: { show: false }
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true,
-      borderRadius: 6
-    }
-  },
-  colors: ["#14b8a6"],
-  dataLabels: { enabled: false },
-  xaxis: { categories: allSources },
-
-  tooltip: {
-    enabled: true,
-    theme: "light",
-    style: {
-      fontSize: "14px",
-      fontWeight: 600,
-      color: "#0f766e" // Turquoise text
-    },
-    y: {
-      formatter: function (val) {
-        return `${val} MT CO₂e`;
-      }
-    },
-    marker: {
-      show: true
-    }
-  }
-};
-  return (
-    <div>
-
-      <InsightCards
-        data={{
-          ...chartData,
-          sources: allSources.map((l,i)=>({name:l,value:values[i]}))
-        }}
-      />
-
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={400}
-      />
-
-    </div>
-  );
-}
-
-/* ================= INSIGHT CARDS ================= */
-
-function InsightCards({ data }) {
-
-  const total = data.sources.reduce((sum,s)=>sum+s.value,0);
-
-  const highest = data.sources.reduce((max,s)=>
-    s.value>max.value?s:max
-  , data.sources[0]);
-
-  const cleanSources = ["Renewable Power","Solar Power","Biomass"];
-
-  const cleanTotal = data.sources
-    .filter(s=>cleanSources.includes(s.name))
-    .reduce((sum,s)=>sum+s.value,0);
-
-  const cleanPercent = total
-    ? ((cleanTotal/total)*100).toFixed(1)
-    : 0;
+  const COLORS = ["#14b8a6", "#0ea5e9", "#22c55e", "#f97316"];
 
   return (
-    <div
-      style={{
-        display:"grid",
-        gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
-        gap:20,
-        marginBottom:30
-      }}
-    >
-      <Card title="🔥 Highest Source"
-        value={highest.name}
-        sub={`${highest.value} MT CO₂e`}
-      />
+    <div style={{ padding: 20 }}>
 
-      <Card title="📊 Total Emissions"
-        value={`${total.toFixed(2)} MT`}
-        sub="Current Month"
-      />
-
-      <Card title="⚡ Clean Energy Share"
-        value={`${cleanPercent}%`}
-        sub="Renewable Contribution"
-      />
-
-      <Card title="📉 Top 3 Contribution"
-        value={`${data.top3Percent || 0}%`}
-        sub="Emission Concentration"
-      />
-    </div>
-  );
-}
-
-function Card({ title, value, sub }) {
-  return (
-    <div
-      style={{
-        background:"white",
-        padding:20,
-        borderRadius:16,
-        boxShadow:"0 8px 20px rgba(0,0,0,0.06)",
-        textAlign:"center"
-      }}
-    >
-      <h4 style={{fontSize:14,color:"#0f766e"}}>
-        {title}
-      </h4>
-
+      {/* HEADER (UNCHANGED) */}
       <div style={{
-        fontSize:18,
-        fontWeight:"700",
-        color:"#065f46"
+        textAlign: "center",
+        padding: 30,
+        borderRadius: 20,
+        background: "linear-gradient(135deg, #e0f2fe, #ccfbf1, #dcfce7)",
+        marginBottom: 30
       }}>
-        {value}
+        <h1 style={{ color: "#0f766e" }}>Analytics & Insights</h1>
+        <p>Explore trends, comparisons, and drivers of energy usage and carbon emissions.</p>
       </div>
 
-      <div style={{
-        fontSize:13,
-        color:"#374151",
-        marginTop:5
-      }}>
-        {sub}
+      {/* CONTROLS */}
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 30 }}>
+        <MonthSelector selectedMonth={selectedMonth} onChange={setSelectedMonth} />
       </div>
+
+      {/* KPI CARDS */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20 }}>
+        <Card title="Total Emissions" value={totalEmissions} />
+        <Card title="Total Energy" value={totalEnergy} />
+        <Card title="Baseline" value={baseline.toFixed(2)} />
+        <Card title="Change %" value={`${changePercent.toFixed(2)}%`} />
+      </div>
+
+      {/* LINE CHART */}
+      <Section title="Emissions Trend">
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={lineData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="emissions" stroke="#14b8a6" />
+          </LineChart>
+        </ResponsiveContainer>
+      </Section>
+
+      {/* 2 COLUMN */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30 }}>
+
+        <Section title="Energy Breakdown">
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={barData}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#0ea5e9" />
+            </BarChart>
+          </ResponsiveContainer>
+        </Section>
+
+        <Section title="Fuel Mix">
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={fuelMix}
+                dataKey="value"
+                nameKey="type"
+                outerRadius={100}
+              >
+                {fuelMix.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </Section>
+
+      </div>
+
+      {/* INSIGHTS */}
+      <Section title="Insights">
+        {changePercent > 0
+          ? "⚠️ Emissions are increasing compared to baseline"
+          : "✅ Emissions reduced compared to baseline"}
+      </Section>
+
     </div>
   );
 }
 
-/* ================= REUSABLE ================= */
+// 🔹 Reusable Components
 
-function Control({ label, children }) {
+function Card({ title, value }) {
   return (
-    <div style={{ minWidth:180 }}>
-      <label style={{
-        fontWeight:"600",
-        color:"#0f766e",
-        fontSize:"23px"
-      }}>
-        {label}
-      </label>
-      <br/>
-      {children}
+    <div style={{
+      background: "#fff",
+      padding: 20,
+      borderRadius: 15,
+      boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
+    }}>
+      <h4 style={{ color: "#0f766e" }}>{title}</h4>
+      <h2>{value}</h2>
     </div>
   );
 }
 
 function Section({ title, children }) {
   return (
-    <div
-      style={{
-        background:"#ffffff",
-        padding:30,
-        borderRadius:18,
-        marginBottom:35,
-        boxShadow:"0 10px 25px rgba(0,0,0,0.08)"
-      }}
-    >
-      <h2 style={{
-        fontSize:"25px",
-        fontWeight:"700",
-        color:"#0f766e",
-        marginBottom:20
-      }}>
-        {title}
-      </h2>
-       <div
-        style={{
-          fontSize: "16px",
-          color: "#374151",  // dark gray (visible on white)
-          lineHeight: 1.6
-        }}
-      >
-        {children}
-      </div>
+    <div style={{
+      background: "#fff",
+      padding: 25,
+      borderRadius: 15,
+      marginTop: 30
+    }}>
+      <h3 style={{ color: "#0f766e" }}>{title}</h3>
+      {children}
     </div>
+  );
+}
+
+function MonthSelector({ selectedMonth, onChange }) {
+  return (
+    <input
+      type="month"
+      value={selectedMonth}
+      onChange={(e) => onChange(e.target.value)}
+      style={{ padding: 10, borderRadius: 10 }}
+    />
   );
 }
