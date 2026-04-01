@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
-
+ 
 export default function AppLayout() {
   const plant = localStorage.getItem("plant") || "Not Selected";
   const location = useLocation();
