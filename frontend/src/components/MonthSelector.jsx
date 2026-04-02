@@ -1,4 +1,4 @@
-export default function MonthSelector({ selectedMonth, setSelectedMonth }) {
+export default function MonthSelector({ selectedMonth, setSelectedMonth }) { 
   return (
     <div style={{ marginBottom: "20px" }}>
       <label style={{ marginRight: "10px", fontWeight: 600 }}>
