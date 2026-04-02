@@ -7,7 +7,7 @@ export default function Topbar({ plant, page }) {
         padding: "14px 24px",
         borderBottom: "1px solid #ddd"
       }}
-    >
+    > 
       <h2 style={{ margin: 0 }}>{plant}</h2>
       <p
         style={{
