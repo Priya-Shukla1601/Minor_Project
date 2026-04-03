@@ -5,7 +5,7 @@ console.log("🔥 NEW ANALYTICS CONTROLLER ACTIVE");
 exports.getEmissionsTrend = async (req, res) => {
     console.log("✅ NEW CONTROLLER RUNNING");
   const { plantId } = req.params;
-
+ 
   try {
     const data = await Entry.aggregate([
       { $match: { plantId } },
