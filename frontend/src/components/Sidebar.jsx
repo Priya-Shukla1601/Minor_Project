@@ -54,47 +54,50 @@ export default function Sidebar() {
 const styles = {
   sidebar: {
     width: "260px",
+    flexShrink: 0,
     background: "#0f766e",
     color: "white",
-    padding: "26px 20px",
+    padding: "20px 16px",
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh"
+    height: "100vh",
+    boxSizing: "border-box"
   },
 
   header: {
-    marginBottom: "32px"
+    marginBottom: "24px",
+    paddingLeft: "8px"
   },
 
   logo: {
     margin: 0,
-    fontSize: "26px",
+    fontSize: "22px",
     fontWeight: "900"
   },
 
   subtitle: {
     margin: 0,
     marginTop: "4px",
-    fontSize: "13px",
+    fontSize: "12px",
     opacity: 0.85
   },
 
   link: {
     display: "flex",
     alignItems: "center",
-    gap: "14px",
-    padding: "16px",
-    marginBottom: "10px",
-    borderRadius: "12px",
+    gap: "12px",
+    padding: "12px 14px",
+    marginBottom: "6px",
+    borderRadius: "10px",
     textDecoration: "none",
     color: "white",
-    fontSize: "17px",
+    fontSize: "15px",
     fontWeight: "600",
     transition: "all 0.25s ease",
   },
 
   icon: {
-    fontSize: "18px"
+    fontSize: "16px"
   }
 };
 

@@ -1,4 +1,4 @@
-const Entry = require("../models/Entry");
+const Entry = require("../models/plantentry");
 
 // 📊 Emissions Trend (Monthly Aggregation)
 console.log("🔥 NEW ANALYTICS CONTROLLER ACTIVE");
@@ -31,7 +31,7 @@ exports.getEmissionsTrend = async (req, res) => {
 
     const emissions = data.map(d => d.totalEmissions);
 
-   res.json({ message: "NEW BACKEND ACTIVE" });
+   res.json({ months, emissions });
 
   } catch (error) {
     res.status(500).json({ error: error.message });
