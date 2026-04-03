@@ -21,7 +21,7 @@ function App() {
         {/* Landing */}
         <Route path="/" element={<Landing />} />
 
-        {/* Dashboard Layout */}
+        {/* Main Dashboard Routes */}
         <Route path="/app" element={<AppLayout />}>
 
           {/* default route */}
