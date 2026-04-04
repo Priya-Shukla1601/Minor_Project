@@ -7,7 +7,7 @@ export default function Topbar({ plant, page }) {
     localStorage.removeItem("userRole");
     localStorage.removeItem("plant");
     navigate("/");
-  };
+  }; 
 
   return (
     <div

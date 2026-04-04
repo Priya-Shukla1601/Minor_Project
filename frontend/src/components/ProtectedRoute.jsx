@@ -7,7 +7,7 @@ export default function ProtectedRoute({ allowedRoles }) {
     // Not logged in
     return <Navigate to="/" replace />;
   }
-
+ 
   if (allowedRoles && !allowedRoles.includes(userRole)) {
     // Logged in but wrong role. Redirect logically based on role.
     return <Navigate to={userRole === "admin" ? "/admin/dashboard" : "/app/home"} replace />;
