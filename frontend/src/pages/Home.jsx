@@ -156,7 +156,7 @@ const styles = {
 
   cardText: {
     fontSize: "19px",
+    fontWeight: "500",
     lineHeight: "1.6",
-    fontWeight: "500"
   }
 };
