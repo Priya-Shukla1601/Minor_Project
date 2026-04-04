@@ -85,7 +85,8 @@ export default function InputForm() {
     png: "",
     hsd: "",
     biomass: "",
-    production: ""
+    production: "",
+    downtime: ""
   });
 
   const isFormComplete = Object.values(formData).every(v => v !== "");
@@ -141,7 +142,8 @@ export default function InputForm() {
      biomassMJ: Number(formData.biomass)
   },
 
-    beverageProduction: Number(formData.production)
+    beverageProduction: Number(formData.production),
+    downtimeHours: Number(formData.downtime)
 })
     }
   );
@@ -314,16 +316,28 @@ export default function InputForm() {
           setActiveSection={setActiveSection}
           styles={styles}
         >
-          <Input
-            name="production"
-            placeholder="Production Volume (litres)"
-            section="production"
-            value={formData.production}
-            onChange={handleChange}
-            onFocus={setActiveSection}
-            missing={formData.production === ""}
-            styles={styles}
-          />
+          <div style={styles.grid}>
+            <Input
+              name="production"
+              placeholder="Production Volume (litres)"
+              section="production"
+              value={formData.production}
+              onChange={handleChange}
+              onFocus={setActiveSection}
+              missing={formData.production === ""}
+              styles={styles}
+            />
+            <Input
+              name="downtime"
+              placeholder="Downtime (hours)"
+              section="production"
+              value={formData.downtime}
+              onChange={handleChange}
+              onFocus={setActiveSection}
+              missing={formData.downtime === ""}
+              styles={styles}
+            />
+          </div>
         </Section>
 
         {/* Submit */}

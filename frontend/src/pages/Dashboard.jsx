@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, memo } from "react";
-import ApexCharts from "apexcharts"; 
+import ApexCharts from "apexcharts";
+import { FiSun, FiWind, FiSettings, FiActivity, FiTarget, FiZap } from "react-icons/fi";
 
 /* ---------- chart types ---------- */
 
@@ -25,34 +26,65 @@ const dropdownStyle = {
 /* ---------- KPI CARD ---------- */
 
 const gradients = [
-  "linear-gradient(135deg,#ccfbf1,#99f6e4)",
-  "linear-gradient(135deg,#ccfbf1,#99f6e4)",
-  "linear-gradient(135deg,#ccfbf1,#99f6e4)",
-  "linear-gradient(135deg,#e0f2fe,#bae6fd)",
-  "linear-gradient(135deg,#e0f2fe,#bae6fd)",
-  "linear-gradient(135deg,#e0f2fe,#bae6fd)"
+  "linear-gradient(135deg, rgba(204, 251, 241, 0.9), rgba(153, 246, 228, 0.9))",
+  "linear-gradient(135deg, rgba(204, 251, 241, 0.9), rgba(153, 246, 228, 0.9))",
+  "linear-gradient(135deg, rgba(204, 251, 241, 0.9), rgba(153, 246, 228, 0.9))",
+  "linear-gradient(135deg, rgba(224, 242, 254, 0.9), rgba(186, 230, 253, 0.9))",
+  "linear-gradient(135deg, rgba(224, 242, 254, 0.9), rgba(186, 230, 253, 0.9))",
+  "linear-gradient(135deg, rgba(224, 242, 254, 0.9), rgba(186, 230, 253, 0.9))"
 ];
 
-const KpiCard = ({ title, value, index }) => (
-  <div style={{
-    background: gradients[index],
-    padding: 26,
-    borderRadius: 16,
-    textAlign: "center",
-    boxShadow: "0 10px 20px rgba(0,0,0,0.12)"
-  }}>
-    <h4 style={{
-      fontSize: 28,
-      color: "#065f46",
-      marginBottom: 10,
-      fontWeight: 700
-    }}>{title}</h4>
+const KpiCard = ({ title, value, index, icon }) => (
+  <div 
+    style={{
+      background: gradients[index],
+      padding: "20px 24px",
+      borderRadius: 16,
+      boxShadow: "0 4px 15px rgba(0,0,0,0.03)",
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+      transition: "all 0.3s ease",
+      border: "1px solid rgba(255,255,255,0.6)",
+      backdropFilter: "blur(8px)"
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = "translateY(-4px)";
+      e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.08)";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = "translateY(0)";
+      e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.03)";
+    }}
+  >
+    <div style={{
+      width: 56, height: 56, borderRadius: "50%", background: "rgba(255,255,255,0.65)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      color: "#0f766e", fontSize: 26, flexShrink: 0,
+      boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+    }}>
+      {icon}
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <h4 style={{
+        fontSize: 14,
+        color: "#065f46",
+        marginBottom: 6,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: 0.5,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+      }}>{title}</h4>
 
-    <p style={{
-      fontSize: 40,
-      fontWeight: 900,
-      color: "#064e3b"
-    }}>{value ?? 0}</p>
+      <p style={{
+        fontSize: 28,
+        margin: 0,
+        fontWeight: 900,
+        color: "#064e3b"
+      }}>{value ?? 0}</p>
+    </div>
   </div>
 );
 
@@ -207,11 +239,12 @@ const ChartCard = memo(({ chart, index, inputs, updateChart }) => {
   return (
     <div style={{
       background: chartCardGradient,
-      padding: 20,
-      borderRadius: 14,
-      boxShadow: "0 6px 14px rgba(0,0,0,0.08)"
+      padding: 24,
+      borderRadius: 16,
+      boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
+      border: "1px solid #e2e8f0"
     }}>
-      <div style={{marginBottom:12}}>
+      <div style={{marginBottom:16}}>
         <select
           style={dropdownStyle}
           value={chart.type}
@@ -300,78 +333,99 @@ export default function Dashboard(){
     width:36,
     height:36,
     cursor:"pointer",
-    fontSize:16
+    fontSize:16,
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
   };
 
   const kpis=safeData.kpis;
 
   return(
     <div style={{
-      padding:30,
+      padding: "32px 40px",
       minHeight:"100vh",
-      background:"linear-gradient(135deg,#e0f2fe,#ccfbf1,#dcfce7)"
+      background:"linear-gradient(135deg,#e0f2fe,#ccfbf1,#dcfce7)",
+      fontFamily: "'Inter', sans-serif"
     }}>
 
-      <h1 style={{
-        textAlign:"center",
-        fontSize:58,
-        fontWeight:900,
-        marginBottom:20,
-        color:"#0f768e"
-      }}>
-        Dashboard
-      </h1>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: 30 }}>
+        <h1 style={{
+          fontSize: 46,
+          fontWeight: 900,
+          margin: 0,
+          color: "#0f768e",
+          textShadow: "0 1px 2px rgba(0,0,0,0.05)"
+        }}>
+          Dashboard
+        </h1>
+        <p style={{ margin: "10px 0 0 0", color: "#475569", fontSize: 18, fontWeight: 500 }}>
+          Comprehensive analysis and key performance indicators.
+        </p>
+      </div>
 
-      <div style={{position:"relative",marginBottom:30}}>
+      <div style={{position:"relative",marginBottom:40, textAlign: "right"}}>
 
         <button
           onClick={()=>setShowCal(v=>!v)}
           style={{
-            fontSize:28,
-            padding:"10px 14px",
+            fontSize:18,
+            padding:"12px 20px",
             borderRadius:12,
             border:"none",
-            background:"#14b8a6",
-            color:"#fff",
-            cursor:"pointer"
+            background:"#ffffff",
+            color:"#0f766e",
+            cursor:"pointer",
+            boxShadow:"0 4px 6px rgba(0,0,0,0.05)",
+            fontWeight: 600,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8
           }}
         >
-          📅
+          📅 {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][month]} {year}
         </button>
 
         {showCal && (
           <div style={{
             position:"absolute",
-            top:60,
-            left:0,
-            background:"#fff",
+            top:55,
+            right:0,
+            background:"rgba(255,255,255,0.98)",
+            backdropFilter:"blur(8px)",
             borderRadius:12,
             padding:16,
-            boxShadow:"0 10px 25px rgba(0,0,0,0.15)"
+            boxShadow:"0 10px 30px rgba(0,0,0,0.15)",
+            zIndex: 50,
+            width: 260,
+            border: "1px solid #ccfbf1"
           }}>
 
-            <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:16, alignItems: "center"}}>
               <button onClick={()=>setYear(y=>y-1)} style={arrowStyle}>{"<"}</button>
-              <b style={{color:"#14b8a6"}}>{year}</b>
+              <b style={{color:"#0f766e", fontSize: 18}}>{year}</b>
               <button onClick={()=>setYear(y=>y+1)} style={arrowStyle}>{">"}</button>
             </div>
 
             <div style={{
               display:"grid",
               gridTemplateColumns:"repeat(4,1fr)",
-              gap:6
+              gap:8
             }}>
               {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m,i)=>(
                 <button
                   key={m}
                   onClick={()=>{setMonth(i);setShowCal(false);}}
                   style={{
-                    padding:8,
-                    borderRadius:6,
-                    border:"1px solid #14b8a6",
-                    background:i===month?"#14b8a6":"#fff",
-                    color:i===month?"#fff":"#14b8a6",
-                    cursor:"pointer"
+                    padding:"8px 0",
+                    borderRadius:8,
+                    border:"none",
+                    background:i===month?"#14b8a6":"transparent",
+                    color:i===month?"#fff":"#475569",
+                    cursor:"pointer",
+                    fontSize:13,
+                    fontWeight:600,
+                    transition:"all 0.2s"
                   }}
                 >
                   {m}
@@ -384,24 +438,26 @@ export default function Dashboard(){
 
       </div>
 
+      {/* Strict 3x2 KPI Grid */}
       <div style={{
-        display:"grid",
-        gridTemplateColumns:"repeat(3,1fr)",
-        gap:24,
-        marginBottom:50
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 24,
+        marginBottom: 40
       }}>
-        <KpiCard index={0} title="Total RE %" value={kpis.renewablePercent}/>
-        <KpiCard index={1} title="Total Green Fuel %" value={kpis.greenFuelPercent}/>
-        <KpiCard index={2} title="Energy Usage Ratio" value={kpis.energyRatio}/>
-        <KpiCard index={3} title="Carbon Footprint (MT)" value={kpis.totalCarbonMT}/>
-        <KpiCard index={4} title="Carbon Intensity" value={kpis.carbonIntensity}/>
-        <KpiCard index={5} title="Total Energy (MJ)" value={kpis.totalEnergyMJ}/>
+        <KpiCard index={0} title="Total RE %" value={kpis.renewablePercent} icon={<FiSun />} />
+        <KpiCard index={1} title="Total Green Fuel %" value={kpis.greenFuelPercent} icon={<FiWind />} />
+        <KpiCard index={2} title="Energy Usage Ratio" value={kpis.energyRatio} icon={<FiSettings />} />
+        <KpiCard index={3} title="Carbon Footprint (MT)" value={kpis.totalCarbonMT} icon={<FiActivity />} />
+        <KpiCard index={4} title="Carbon Intensity" value={kpis.carbonIntensity} icon={<FiTarget />} />
+        <KpiCard index={5} title="Total Energy (MJ)" value={kpis.totalEnergyMJ} icon={<FiZap />} />
       </div>
 
+      {/* Strict 2x2 Charts Grid */}
       <div style={{
-        display:"grid",
-        gridTemplateColumns:"1fr 1fr",
-        gap:30
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gap: 24
       }}>
         {charts.map((chart,i)=>(
           <ChartCard

@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-
+ 
 const plantEntrySchema = new mongoose.Schema({
   plant: {
     type: String,
     required: true
-  },
-  
+  }, 
   month: {
     type: Number,   // 1 to 12
     required: true

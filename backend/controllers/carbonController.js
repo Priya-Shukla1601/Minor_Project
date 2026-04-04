@@ -1,12 +1,11 @@
 const calculationService = require("../services/calculationService");
 const PlantEntry = require("../models/plantentry");
-
-exports.submitData = async (req, res) => 
-
-{
+ 
+exports.submitData = async (req, res) => {
   try {
-
+ 
     const plantData = req.body;
+
     // -----------------------------
     // 1. Basic validation
     // -----------------------------
@@ -16,6 +15,7 @@ exports.submitData = async (req, res) =>
         error: "Plant ID , month and year required"
       });
     }
+
     // -----------------------------
     // 2. Calculate KPIs
     // -----------------------------
@@ -98,6 +98,80 @@ exports.getData = async (req, res) => {
     res.status(500).json({
       error: "Internal Server Error"
     });
+  }
+};
+
+// Aggregated Reports Data
+exports.getReportsData = async (req, res) => {
+  try {
+    let { plant, year } = req.params;
+    let { months } = req.query; // e.g. "1,2,3" for Q1
+
+    year = Number(year);
+    if (!months) {
+      months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    } else {
+      months = months.split(',').map(Number);
+    }
+
+    const data = await PlantEntry.find({
+      plant: plant,
+      year: year,
+      month: { $in: months }
+    });
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: "No data found for the selected period" });
+    }
+
+    // Aggregate inputs
+    const aggregatedInputs = {
+      powerConsumption: {
+        gridPowerKWh: 0,
+        renewablePowerKWh: 0,
+        solarPowerKWh: 0
+      },
+      fuelConsumption: {
+        lpgKg: 0,
+        furnaceOilLitre: 0,
+        pngSCM: 0,
+        hsdLitre: 0,
+        biomassMJ: 0
+      },
+      beverageProduction: 0
+    };
+
+    data.forEach(entry => {
+      const inp = entry.inputs;
+      aggregatedInputs.powerConsumption.gridPowerKWh += +inp.powerConsumption?.gridPowerKWh || 0;
+      aggregatedInputs.powerConsumption.renewablePowerKWh += +inp.powerConsumption?.renewablePowerKWh || 0;
+      aggregatedInputs.powerConsumption.solarPowerKWh += +inp.powerConsumption?.solarPowerKWh || 0;
+
+      aggregatedInputs.fuelConsumption.lpgKg += +inp.fuelConsumption?.lpgKg || 0;
+      aggregatedInputs.fuelConsumption.furnaceOilLitre += +inp.fuelConsumption?.furnaceOilLitre || 0;
+      aggregatedInputs.fuelConsumption.pngSCM += +inp.fuelConsumption?.pngSCM || 0;
+      aggregatedInputs.fuelConsumption.hsdLitre += +inp.fuelConsumption?.hsdLitre || 0;
+      aggregatedInputs.fuelConsumption.biomassMJ += +inp.fuelConsumption?.biomassMJ || 0;
+
+      aggregatedInputs.beverageProduction += +inp.beverageProduction || 0;
+    });
+
+    // Recalculate KPIs for the whole period
+    const kpis = calculationService.calculateKPIs(aggregatedInputs);
+
+    res.json({
+      plant,
+      year,
+      months,
+      inputs: aggregatedInputs,
+      kpis,
+      entriesCount: data.length,
+      timestamp: new Date()
+    });
+
+  } catch (error) {
+    console.error("Reports controller error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 exports.getDashboard = async (req, res) => {

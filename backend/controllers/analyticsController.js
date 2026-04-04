@@ -1,80 +1,109 @@
-const analyticsService = require("../services/analyticsService");
-/*
-========================================
-EMISSIONS TREND
-========================================
-*/ 
+const Entry = require("../models/plantentry");
 
-exports.getTrend = async (req, res) => {
+//  Emissions Trend (Monthly Aggregation)
+console.log("NEW ANALYTICS CONTROLLER ACTIVE");
+exports.getEmissionsTrend = async (req, res) => {
+  console.log(" NEW CONTROLLER RUNNING");
+  const { plantId } = req.params;
+  
   try {
-    const { plant } = req.params;
-    const data = await analyticsService.getTrendData(plant):
-    res.json(data);
-  } catch (error) {
-    console.error("Trend Error:", error);
-    res.status(500).json({ error: "Failed to fetch trend data" });
-  }
-};
-/*
-========================================
-COMPARISON (MoM / YoY / QoQ)
-=========================================
-*/
-exports.getComparison = async (req, res) => {
-  try {
-    const { plant } = req.params;
-    const { type = "mom" } = req.query;
+    const data = await Entry.aggregate([
+      { $match: { plantId } },
 
-    const data = await analyticsService.getComparisonData(plant, type);
+      {
+        $group: {
+          _id: { year: "$year", month: "$month" },
+          totalEmissions: { $sum: "$emissions" }
+        }
+      },
 
-    if (!data) {
-      return res.status(404).json({ error: "Not enough comparison data" });
-    }
+      { $sort: { "_id.year": 1, "_id.month": 1 } }
+    ]);
 
-    res.json(data);
-  } catch (error) {
-    console.error("Comparison Error:", error);
-    res.status(500).json({ error: "Failed to fetch comparison data" });
-  }
-};
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
-/*
-========================================
-HOTSPOT ANALYSIS
-==========================================
-*/
-exports.getHotspots = async (req, res) => {
-  try {
-    const { plant, month, year } = req.params;
-
-    const data = await analyticsService.getHotspotData(
-      plant,
-      Number(month),
-      Number(year)
+    const months = data.map(d =>
+      `${monthNames[d._id.month - 1]} ${d._id.year}`
     );
 
-    if (!data) {
-      return res.status(404).json({ error: "No hotspot data found" });
-    }
+    const emissions = data.map(d => d.totalEmissions);
 
-    res.json(data);
+    res.json({ months, emissions });
+
   } catch (error) {
-    console.error("Hotspot Error:", error);
-    res.status(500).json({ error: "Failed to fetch hotspot data" });
+    res.status(500).json({ error: error.message });
   }
 };
 
-/*
-========================================
-SCENARIO ANALYSIS
-========================================
-*/
-exports.runScenario = async (req, res) => {
+
+// ⚡ Energy Consumption
+exports.getEnergy = async (req, res) => {
+  const { plantId, month, year } = req.params;
+
   try {
-    const data = await analyticsService.runScenarioAnalysis(req.body);
-    res.json(data);
+    const data = await Entry.aggregate([
+      {
+        $match: {
+          plantId,
+          month: Number(month),
+          year: Number(year)
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          electricity: { $sum: "$electricity" },
+          fuel: { $sum: "$fuel" }
+        }
+      }
+    ]);
+
+    const result = data[0] || { electricity: 0, fuel: 0 };
+
+    res.json({
+      electricity: result.electricity,
+      fuel: result.fuel,
+      total: result.electricity + result.fuel
+    });
+
   } catch (error) {
-    console.error("Scenario Error:", error);
-    res.status(500).json({ error: "Failed to run scenario analysis" });
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+// 🔥 Fuel Mix Breakdown
+exports.getFuelMix = async (req, res) => {
+  const { plantId, month, year } = req.params;
+
+  try {
+    const data = await Entry.aggregate([
+      {
+        $match: {
+          plantId,
+          month: Number(month),
+          year: Number(year)
+        }
+      },
+      {
+        $group: {
+          _id: "$fuelType",
+          value: { $sum: "$fuelAmount" }
+        }
+      }
+    ]);
+
+    const fuels = data.map(d => ({
+      type: d._id || "Unknown",
+      value: d.value
+    }));
+
+    res.json({ fuels });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
