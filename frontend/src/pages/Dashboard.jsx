@@ -351,8 +351,8 @@ export default function Dashboard(){
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: 30 }}>
         <h1 style={{
-          fontSize: 46,
           fontWeight: 900,
+          fontSize: 46,
           margin: 0,
           color: "#0f768e",
           textShadow: "0 1px 2px rgba(0,0,0,0.05)"
