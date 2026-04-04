@@ -43,8 +43,8 @@ export default function Topbar({ plant, page }) {
           padding: "8px 16px",
           borderRadius: "8px",
           cursor: "pointer",
-          fontWeight: "bold",
-          fontSize: "14px"
+          fontSize: "14px",
+          fontWeight: "bold"
         }}
       >
         Logout
