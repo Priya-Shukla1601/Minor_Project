@@ -1,6 +1,7 @@
 const Entry = require("../models/plantentry");
 
 //  Emissions Trend (Monthly Aggregation)
+
 console.log("NEW ANALYTICS CONTROLLER ACTIVE");
 exports.getEmissionsTrend = async (req, res) => {
   console.log(" NEW CONTROLLER RUNNING");
