@@ -16,7 +16,7 @@ export default function AdminLayout() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* ❌ NO SIDEBAR */}
+      {/* NO SIDEBAR */}
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <Topbar plant={topbarTitle} page={pageName} />

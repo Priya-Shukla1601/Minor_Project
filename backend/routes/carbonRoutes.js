@@ -13,4 +13,10 @@ router.get(
   carbonController.getDashboard
 );
 
+// Reports data (aggregated)
+router.get(
+  '/reports/:plant/:year',
+  carbonController.getReportsData
+);
+
 module.exports = router;

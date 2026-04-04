@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 
 export default function AppLayout() {
-  const plant = localStorage.getItem("plant") || "Not Selected";
+  const plant = localStorage.getItem("plant") || "Select Plant";
   const location = useLocation();
 
   const pageName =
@@ -30,5 +30,4 @@ export default function AppLayout() {
     </div>
   );
 }
-
 

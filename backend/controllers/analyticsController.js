@@ -1,9 +1,9 @@
 const Entry = require("../models/plantentry");
 
-// 📊 Emissions Trend (Monthly Aggregation)
-console.log("🔥 NEW ANALYTICS CONTROLLER ACTIVE");
+//  Emissions Trend (Monthly Aggregation)
+console.log("NEW ANALYTICS CONTROLLER ACTIVE");
 exports.getEmissionsTrend = async (req, res) => {
-    console.log("✅ NEW CONTROLLER RUNNING");
+  console.log(" NEW CONTROLLER RUNNING");
   const { plantId } = req.params;
   
   try {
@@ -21,8 +21,8 @@ exports.getEmissionsTrend = async (req, res) => {
     ]);
 
     const monthNames = [
-      "Jan","Feb","Mar","Apr","May","Jun",
-      "Jul","Aug","Sep","Oct","Nov","Dec"
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
 
     const months = data.map(d =>
@@ -31,7 +31,7 @@ exports.getEmissionsTrend = async (req, res) => {
 
     const emissions = data.map(d => d.totalEmissions);
 
-   res.json({ months, emissions });
+    res.json({ months, emissions });
 
   } catch (error) {
     res.status(500).json({ error: error.message });
