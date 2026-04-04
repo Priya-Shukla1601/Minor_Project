@@ -462,8 +462,8 @@ function InsightCard({ text, icon }) {
       boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
       fontSize: 15,
       color: "#1e293b",
-      lineHeight: 1.5,
       fontWeight: 500,
+      lineHeight: 1.5,
       display: "flex",
       alignItems: "flex-start",
       gap: 12
