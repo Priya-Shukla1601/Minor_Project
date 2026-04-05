@@ -117,7 +117,7 @@ export default function InputForm() {
 
   try {
   const response = await fetch(
-    "http://smart-carbontrack-project.onrender.com/api/carbon/entry",
+    "http://`${import.meta.env.VITE_API_BASE_URL}/carbon/entry",
     {
       method: "POST",
       headers: {

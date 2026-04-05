@@ -199,7 +199,7 @@ const YearlyTrendChart = memo(({ plant, year }) => {
         const promises = [];
         for (let m = 1; m <= 12; m++) {
           promises.push(
-            fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${plant}/${m}/${year}`)
+            fetch(`${import.meta.env.VITE_API_BASE_URL}/carbon/dashboard/${plant}/${m}/${year}`)
               .then(res => res.json())
               .catch(() => null)
           );
@@ -364,7 +364,7 @@ export default function AdminPlantDetail() {
   useEffect(() => {
     let isMounted = true;
     setDataLoading(true);
-    fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${plant}/${month + 1}/${year}`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/carbon/dashboard/${plant}/${month + 1}/${year}`)
       .then(res => res.json())
       .then(d => {
         if (isMounted) {

@@ -49,7 +49,7 @@ export default function AdminReports() {
 
       try {
         const promises = monthsToFetch.map(m => 
-          fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${selectedPlant}/${m}/${year}`)
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/carbon/dashboard/${selectedPlant}/${m}/${year}`)
             .then(res => res.ok ? res.json() : null)
             .catch(() => null)
         );

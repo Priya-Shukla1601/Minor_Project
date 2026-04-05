@@ -35,7 +35,7 @@ export default function AnalyticsPage() {
     const m = monthIndex + 1; // 1-indexed for backend
 
     try {
-      const res = await fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${currentPlant}/${m}/${year}`);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/carbon/dashboard/${currentPlant}/${m}/${year}`);
       const data = res.ok ? await res.json() : null;
       setDashboardData(data && !data.error ? data : null);
     } catch (error) {
@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
       const promises = [];
       for (let m = 1; m <= 12; m++) {
         promises.push(
-          fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${currentPlant}/${m}/${year}`)
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/carbon/dashboard/${currentPlant}/${m}/${year}`)
             .then(res => res.json())
             .catch(() => null)
         );
