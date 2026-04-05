@@ -8,6 +8,7 @@ export default function Sidebar() {
       <nav>
         <Link to="/app/home">Home</Link>
         <Link to="/app/data-entry">Data Entry</Link>
+                                               
         <Link to="/app/dashboard">Dashboard</Link>
         <Link to="/app/analytics">Analytics</Link>
         <Link to="/app/reports">Reports</Link>
