@@ -5,7 +5,7 @@ const carbonController =
 
 // Save plant entry
 router.post('/entry', carbonController.submitData);
-
+ 
 // Fetch dashboard data
 router.get(
   '/dashboard/:plant/:month/:year',
