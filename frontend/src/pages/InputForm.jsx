@@ -117,7 +117,7 @@ export default function InputForm() {
 
   try {
   const response = await fetch(
-    "http://`${import.meta.env.VITE_API_BASE_URL}/carbon/entry",
+    `${import.meta.env.VITE_API_BASE_URL}/carbon/entry`,
     {
       method: "POST",
       headers: {
