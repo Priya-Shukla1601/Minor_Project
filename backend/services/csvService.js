@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('fast-csv');
 const { parse } = require('csv-parse');
-
+ 
 const DATA_FILE = path.join(__dirname, '../data.csv');
 
 // Ensure file exists with headers
