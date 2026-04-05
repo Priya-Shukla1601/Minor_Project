@@ -7,7 +7,7 @@ import {
   FaFileAlt,
   FaCog
 } from "react-icons/fa";
- 
+
 const links = [
   { path: "home", label: "Home", icon: <FaHome /> },
   { path: "data-entry", label: "Data Entry", icon: <FaEdit /> },
