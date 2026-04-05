@@ -117,7 +117,7 @@ export default function InputForm() {
 
   try {
   const response = await fetch(
-    "http://localhost:5000/api/carbon/entry",
+    "http://smart-carbontrack-project.onrender.com/api/carbon/entry",
     {
       method: "POST",
       headers: {

@@ -295,7 +295,7 @@ export default function Dashboard(){
   ]);
 
   useEffect(()=>{
-    fetch(`http://localhost:5000/api/carbon/dashboard/${plant}/${month+1}/${year}`)
+    fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${plant}/${month+1}/${year}`)
       .then(res=>res.json())
       .then(d=>setData(d))
       .catch(()=>setData(null));

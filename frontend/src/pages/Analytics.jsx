@@ -35,7 +35,7 @@ export default function AnalyticsPage() {
     const m = monthIndex + 1; // 1-indexed for backend
 
     try {
-      const res = await fetch(`http://localhost:5000/api/carbon/dashboard/${currentPlant}/${m}/${year}`);
+      const res = await fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${currentPlant}/${m}/${year}`);
       const data = res.ok ? await res.json() : null;
       setDashboardData(data && !data.error ? data : null);
     } catch (error) {
@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
       const promises = [];
       for (let m = 1; m <= 12; m++) {
         promises.push(
-          fetch(`http://localhost:5000/api/carbon/dashboard/${currentPlant}/${m}/${year}`)
+          fetch(`http://smart-carbontrack-project.onrender.com/api/carbon/dashboard/${currentPlant}/${m}/${year}`)
             .then(res => res.json())
             .catch(() => null)
         );
@@ -333,7 +333,7 @@ export default function AnalyticsPage() {
               <div style={{ position: "relative" }}>
                  {highestContributor && (
                     <div style={{ position: "absolute", right: 20, top: 0, zIndex: 10, background: "rgba(255,255,255,0.95)", border: "1px solid #e2e8f0", padding: "10px 16px", borderRadius: 8, boxShadow: "0 4px 6px rgba(0,0,0,0.05)", fontSize: 13, color: "#334155" }}>
-                        👉 <strong>Highest Contributor:</strong> {highestContributor.name} ({highestContributorPercent}%)
+                         <strong>Highest Contributor:</strong> {highestContributor.name} ({highestContributorPercent}%)
                     </div>
                  )}
                  <ResponsiveContainer width="100%" height={320}>
@@ -462,8 +462,8 @@ function InsightCard({ text, icon }) {
       boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
       fontSize: 15,
       color: "#1e293b",
-      fontWeight: 500,
       lineHeight: 1.5,
+      fontWeight: 500,
       display: "flex",
       alignItems: "flex-start",
       gap: 12
