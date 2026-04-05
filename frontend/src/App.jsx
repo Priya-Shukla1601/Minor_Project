@@ -18,6 +18,9 @@ import AdminPlantDetail from "./pages/AdminPlantDetail";
 function App() {
   const [dashboardData, setDashboardData] = useState(null);
 
+  console.log("ENV:", import.meta.env.VITE_API_BASE_URL);
+
+
   return (
     <BrowserRouter>
       <Routes>
