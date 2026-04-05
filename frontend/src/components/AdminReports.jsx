@@ -8,7 +8,7 @@ import {
   FiZap, FiTarget, FiLoader, FiSun, FiMapPin, FiPrinter, FiAlignLeft
 } from "react-icons/fi";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
- 
+
 const MOCK_PLANTS = ["Bhopal", "Delhi", "Mumbai", "Pune", "Chennai", "Hyderabad"];
 const REPORT_TYPES = ["Summary", "Detailed Emissions", "Energy Consumption", "Fuel Consumption", "Carbon Intensity"];
 const PERIOD_TYPES = ["Month", "Quarter", "Year"];
