@@ -178,12 +178,12 @@ exports.getDashboard = async (req, res) => {
   try {
     let { plant, month, year } = req.params;
 
-    // Convert month & year to Number (VERY IMPORTANT)
+    // Convert month & year to Number
     month = Number(month);
     year = Number(year);
 
     const data = await PlantEntry.findOne({
-      plant,
+      plant: { $regex: new RegExp(`^${plant}$`, "i") }, // 👈 FIX HERE
       month,
       year
     });
