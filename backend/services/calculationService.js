@@ -1,6 +1,7 @@
 // ======================================
 // Smart CarbonTrack Calculation Engine
 // ======================================
+
 // --- Conversion constants ---
 const FACTORS = {
 
