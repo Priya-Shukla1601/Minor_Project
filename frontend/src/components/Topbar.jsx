@@ -45,7 +45,8 @@ export default function Topbar({ plant, page }) {
           cursor: "pointer",
           fontSize: "14px",
           fontWeight: "bold"
-        }}
+        }} 
+        
       >
         Logout
       </button>
