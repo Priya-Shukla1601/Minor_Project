@@ -1,4 +1,5 @@
 const PlantEntry = require("../models/plantentry");
+
 /*
 ========================================
 TREND SERVICE
