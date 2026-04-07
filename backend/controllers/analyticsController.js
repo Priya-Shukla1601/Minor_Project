@@ -101,6 +101,7 @@ exports.getFuelMix = async (req, res) => {
       type: d._id || "Unknown",
       value: d.value
     }));
+    
 
     res.json({ fuels });
 
