@@ -396,8 +396,8 @@ export default function Dashboard(){
             borderRadius:12,
             padding:16,
             boxShadow:"0 10px 30px rgba(0,0,0,0.15)",
-            zIndex: 50,
             width: 260,
+            zIndex: 50,
             border: "1px solid #ccfbf1"
           }}>
 
