@@ -16,3 +16,4 @@ export default function ProtectedRoute({ allowedRoles }) {
   // Render child routes
   return <Outlet />;
 }
+
