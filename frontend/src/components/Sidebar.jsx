@@ -104,6 +104,8 @@ const styles = {
 /* Hover glow using CSS injection */
 const styleSheet = document.createElement("style");
 styleSheet.innerText = `
+
+
 a:hover {
   transform: translateX(4px);
   box-shadow: 0 0 18px rgba(255,255,255,0.45);
