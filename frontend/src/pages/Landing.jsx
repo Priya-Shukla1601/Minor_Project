@@ -217,10 +217,10 @@ const styles = {
     borderRadius: "8px",
     border: "none",
     fontSize: "16px",
+    fontWeight: "500",
     background: "white",
     color: "black",
     outline: "none",
-    fontWeight: "500",
     textAlign: "center"
   },
   button: {
