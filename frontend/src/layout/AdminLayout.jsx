@@ -23,8 +23,8 @@ export default function AdminLayout() {
 
         <main
           style={{
-            flex: 1,
             padding: "40px",
+            flex: 1,
             background:
               "linear-gradient(135deg,#e0f2fe,#ccfbf1,#dcfce7)"
           }}
