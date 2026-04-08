@@ -504,6 +504,8 @@ function StatCard({ label, value, unit, icon, color }) {
 
 function ReportBox({ title, children, border }) {
     return (
+
+      
         <div style={{ background: border ? "#fff" : "transparent", padding: border ? 24 : 0, borderRadius: 16, border: border ? "1px solid #cbd5e1" : "none" }}>
             <h3 style={{ margin: "0 0 20px 0", fontSize: 18, color: "#1e293b", fontWeight: 800 }}>{title}</h3>
             {children}
