@@ -123,8 +123,8 @@ const styles = {
     fontSize: "22px",
     maxWidth: "900px",
     margin: "0 auto",
-    lineHeight: "1.6",
     fontWeight: "500",
+    lineHeight: "1.6",
     color: "#134e4a"
   },
 
