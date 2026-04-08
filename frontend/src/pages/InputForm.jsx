@@ -373,8 +373,8 @@ const styles = {
 
   mainTitle: {
     textAlign: "center",
-    fontWeight: 900,
     fontSize: 58,
+    fontWeight: 900,
     color: "#065f46",
     marginBottom: 30
   },
