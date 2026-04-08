@@ -46,6 +46,8 @@ export default function Topbar({ plant, page }) {
           fontSize: "14px",
           fontWeight: "bold"
         }} 
+
+        
         
       >
         Logout
