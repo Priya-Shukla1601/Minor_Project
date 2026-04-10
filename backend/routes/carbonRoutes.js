@@ -4,6 +4,7 @@ const carbonController =
   require('../controllers/carbonController');
 
 // Save plant entry
+
 router.post('/entry', carbonController.submitData);
  
 // Fetch dashboard data
