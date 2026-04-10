@@ -8,6 +8,7 @@ const {
 } = require("../controllers/analyticsController");
 
 // 📊 Emissions Trend
+
 router.get("/emissions-trend/:plantId", getEmissionsTrend);
 
 // ⚡ Energy Data
