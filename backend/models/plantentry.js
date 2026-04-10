@@ -5,14 +5,17 @@ const plantEntrySchema = new mongoose.Schema({
     type: String,
     required: true
   }, 
+  
   month: {
     type: Number,   // 1 to 12
     required: true
   },
+  
   year: {
     type: Number,   // 2006, 2009
     required: true
   },
+  
   inputs: {
     type: Object,
     required: true
