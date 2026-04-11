@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 export default function Topbar({ plant, page }) {
   const navigate = useNavigate();
   
