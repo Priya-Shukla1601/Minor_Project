@@ -4,7 +4,6 @@
 
 // --- Conversion constants ---
 const FACTORS = {
-
   // electricity → kg CO2 per kWh
   GRID_CO2: 0.82,
 
