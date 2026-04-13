@@ -1,5 +1,4 @@
 export default function MonthSelector({ selectedMonth, setSelectedMonth }) {
-  
   return (
     
     <div style={{ marginBottom: "20px" }}>
