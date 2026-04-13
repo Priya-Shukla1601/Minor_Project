@@ -20,6 +20,7 @@ const QUARTERS = ["Q1 (Jan-Mar)", "Q2 (Apr-Jun)", "Q3 (Jul-Sep)", "Q4 (Oct-Dec)"
 const COLORS = ["#14b8a6", "#f59e0b", "#3b82f6", "#ef4444", "#8b5cf6", "#10b981", "#f43f5e", "#64748b"];
 
 export default function AdminReports() {
+  
   const [selectedPlant, setSelectedPlant] = useState(localStorage.getItem("plant") || "Select Plant");
   const [selectedPeriodType, setSelectedPeriodType] = useState("Month");
   const [year, setYear] = useState(new Date().getFullYear());
