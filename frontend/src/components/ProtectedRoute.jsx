@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-
 export default function ProtectedRoute({ allowedRoles }) {
+  
   const userRole = localStorage.getItem("userRole");
   if (!userRole) {
     // Not logged in
