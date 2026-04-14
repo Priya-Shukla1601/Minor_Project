@@ -3,7 +3,6 @@ const PlantEntry = require("../models/plantentry");
 
 exports.submitData = async (req, res) => {
   try {
-    
     const plantData = req.body;
 
     // -----------------------------
